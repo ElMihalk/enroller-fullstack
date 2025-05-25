@@ -6,6 +6,7 @@ export default function MeetingsPage({username}) {
     const [meetings, setMeetings] = useState([]);
     const [addingNewMeeting, setAddingNewMeeting] = useState(false);
 
+
     useEffect(() => {
         const fetchMeetings = async () => {
             const response = await fetch(`/api/meetings`);
@@ -64,6 +65,8 @@ export default function MeetingsPage({username}) {
         }
     }
 
+
+
     return (
         <div>
             <h2>Zajęcia ({meetings.length})</h2>
@@ -74,7 +77,8 @@ export default function MeetingsPage({username}) {
             }
             {meetings.length > 0 &&
                 <MeetingsList meetings={meetings} username={username}
-                              onDelete={handleDeleteMeeting} onSignIn={signToMeeting} onSignOut={signOutMeeting}/>}
+                              onDelete={handleDeleteMeeting} onSignIn={signToMeeting}
+                              onSignOut={signOutMeeting}/>}
         </div>
     )
 }

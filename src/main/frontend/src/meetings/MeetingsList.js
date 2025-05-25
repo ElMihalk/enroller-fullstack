@@ -1,4 +1,21 @@
-export default function MeetingsList({meetings, onDelete, onSignIn, onSignOut}) {
+import {useState} from "react";
+
+export default function MeetingsList({meetings, username, onDelete, onSignIn, onSignOut}) {
+    const [sign, setSign] = useState(true);
+    const [participants, setParticipants] = useState([]);
+
+
+    async function getParticipants(meeting) {
+        const response = await fetch(`api/meetings/${meeting.id}/participants`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.ok) {
+            const participants = await response.json();
+            setParticipants(participants);
+        }
+    }
+
     return (
         <table>
             <thead>
@@ -12,7 +29,8 @@ export default function MeetingsList({meetings, onDelete, onSignIn, onSignOut}) 
             </thead>
             <tbody>
             {
-                meetings.map((meeting, index) => <tr key={index}>
+                meetings.map((meeting, index) =>
+                    <tr key={index}>
                     <td>{meeting.title}</td>
                     <td>{meeting.description}</td>
                     <td><button type="button" onClick={() => onSignIn(meeting)}>Zapisz</button></td>
