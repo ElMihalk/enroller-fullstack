@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Part;
 import java.util.Collection;
 
 @Component("participantService")

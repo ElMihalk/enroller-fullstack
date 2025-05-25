@@ -44,6 +44,26 @@ export default function MeetingsPage({username}) {
         }
     }
 
+    async function signToMeeting(meeting) {
+        const response = await fetch(`api/meetings/${meeting.id}/participants`, {
+            method: 'POST',
+            body: JSON.stringify({login: username}),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.ok) {
+        }
+    }
+
+    async function signOutMeeting(meeting) {
+        const response = await fetch(`api/meetings/${meeting.id}/participants/${username}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.ok) {
+
+        }
+    }
+
     return (
         <div>
             <h2>Zajęcia ({meetings.length})</h2>
@@ -54,7 +74,7 @@ export default function MeetingsPage({username}) {
             }
             {meetings.length > 0 &&
                 <MeetingsList meetings={meetings} username={username}
-                              onDelete={handleDeleteMeeting}/>}
+                              onDelete={handleDeleteMeeting} onSignIn={signToMeeting} onSignOut={signOutMeeting}/>}
         </div>
     )
 }
