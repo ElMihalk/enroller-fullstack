@@ -1,20 +1,7 @@
 import {useState} from "react";
 
-export default function MeetingsList({meetings, username, onDelete, onSignIn, onSignOut}) {
-    const [sign, setSign] = useState(true);
-    const [participants, setParticipants] = useState([]);
+export default function MeetingsList({meetings, username, onDelete, onSignIn, onSignOut, checkUser}) {
 
-
-    async function getParticipants(meeting) {
-        const response = await fetch(`api/meetings/${meeting.id}/participants`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        if (response.ok) {
-            const participants = await response.json();
-            setParticipants(participants);
-        }
-    }
 
     return (
         <table>
@@ -22,8 +9,7 @@ export default function MeetingsList({meetings, username, onDelete, onSignIn, on
             <tr>
                 <th>Nazwa spotkania</th>
                 <th>Opis</th>
-                <th>Zapisz</th>
-                <th>Wypisz</th>
+                <th>Uczestnictwo</th>
                 <th>Usuń spotkanie</th>
             </tr>
             </thead>

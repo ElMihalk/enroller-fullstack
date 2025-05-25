@@ -5,7 +5,8 @@ import MeetingsList from "./MeetingsList";
 export default function MeetingsPage({username}) {
     const [meetings, setMeetings] = useState([]);
     const [addingNewMeeting, setAddingNewMeeting] = useState(false);
-
+    const [participants, setParticipants] = useState([]);
+    const [sign, setSign] = useState(false);
 
     useEffect(() => {
         const fetchMeetings = async () => {
@@ -65,7 +66,28 @@ export default function MeetingsPage({username}) {
         }
     }
 
+    async function getParticipants(meeting) {
+        const response = await fetch(`api/meetings/${meeting.id}/participants`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.ok) {
+            const participants = await response.json();
+            setParticipants(participants);
+        }
+    }
 
+    async function checkPresence(meeting) {
+        setSign(false);
+        getParticipants(meeting);
+        participants.forEach((participant) =>
+        {
+            if (participant.login == username){
+                setSign(true);
+            }
+        }
+        )
+    }
 
     return (
         <div>
@@ -78,7 +100,7 @@ export default function MeetingsPage({username}) {
             {meetings.length > 0 &&
                 <MeetingsList meetings={meetings} username={username}
                               onDelete={handleDeleteMeeting} onSignIn={signToMeeting}
-                              onSignOut={signOutMeeting}/>}
+                              onSignOut={signOutMeeting} checkUser={checkPresence}/>}
         </div>
     )
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
@@ -105,6 +106,7 @@ public class MeetingRestController {
         Collection<Participant> participants = meeting.getParticipants();
         return new ResponseEntity<Collection<Participant>>(participants, HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "/{id}/participants/{login}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteParticipantFromMeeting(@PathVariable("id") long id, @PathVariable("login") String login) {
