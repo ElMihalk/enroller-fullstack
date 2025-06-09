@@ -53,6 +53,13 @@ export default function MeetingsPage({username}) {
             headers: { 'Content-Type': 'application/json' }
         });
         if (response.ok) {
+            setMeetings(prev =>
+                prev.map(m =>
+                    m.id === meeting.id
+                        ? { ...m, participants: [...m.participants, { login: username }] }
+                        : m
+                )
+            );
         }
     }
 
@@ -62,7 +69,16 @@ export default function MeetingsPage({username}) {
             headers: { 'Content-Type': 'application/json' }
         });
         if (response.ok) {
-
+            setMeetings(prev =>
+                prev.map(m =>
+                    m.id === meeting.id
+                        ? {
+                            ...m,
+                            participants: m.participants.filter(p => p.login !== username)
+                        }
+                        : m
+                )
+            );
         }
     }
 
